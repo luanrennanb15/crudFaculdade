@@ -50,7 +50,7 @@ O cadastro dos quartos é feito uma única vez, na carga inicial do banco (`db/s
 
 ### Diagrama Entidade-Relacionamento (DER)
 
-![Diagrama Entidade-Relacionamento](docs/der.svg)
+![Diagrama Entidade-Relacionamento](docs/der.png)
 
 O mesmo modelo, em notação Mermaid:
 
