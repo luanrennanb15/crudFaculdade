@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 460" width="880" height="460" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+
+  <rect width="880" height="460" fill="#fafafa"/>
+
+  <defs>
+    <filter id="sombra" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- ============ LIGAcAO quartos.id 1 --- N reservas.quarto_id ============ -->
+  <g stroke="#9aa5b1" stroke-width="1.4" fill="none">
+    <path d="M 340 217 L 400 217 L 400 137 L 512 137"/>
+  </g>
+  <!-- marca "1" no lado quartos -->
+  <g stroke="#9aa5b1" stroke-width="1.4">
+    <line x1="348" y1="210" x2="348" y2="224"/>
+  </g>
+  <!-- pe-de-galinha (N) no lado reservas -->
+  <g stroke="#9aa5b1" stroke-width="1.4" fill="none">
+    <path d="M 512 137 L 500 129"/>
+    <path d="M 512 137 L 500 137"/>
+    <path d="M 512 137 L 500 145"/>
+  </g>
+
+  <!-- ==================== TABELA: quartos ==================== -->
+  <g filter="url(#sombra)">
+    <rect x="40" y="170" width="300" height="182" rx="4" fill="#ffffff"/>
+  </g>
+  <rect x="40" y="170" width="300" height="32" rx="4" fill="#2d6098"/>
+  <rect x="40" y="194" width="300" height="8" fill="#2d6098"/>
+  <text x="56" y="191" fill="#ffffff" font-size="14" font-weight="600">quartos</text>
+
+  <!-- id -->
+  <text x="56" y="221" fill="#1a202c" font-size="13" font-weight="700">id</text>
+  <text x="130" y="221" fill="#718096" font-size="11">🔑</text>
+  <text x="324" y="221" fill="#4a5568" font-size="12" text-anchor="end">INTEGER</text>
+  <line x1="40" y1="232" x2="340" y2="232" stroke="#edf0f3" stroke-width="1"/>
+
+  <!-- numero -->
+  <text x="56" y="251" fill="#1a202c" font-size="13">numero</text>
+  <text x="130" y="251" fill="#718096" font-size="11">◈</text>
+  <text x="272" y="251" fill="#4a5568" font-size="12" text-anchor="end">TEXT</text>
+  <rect x="280" y="241" width="26" height="14" rx="2" fill="#dfe4ea"/>
+  <text x="293" y="252" fill="#3d4852" font-size="9.5" font-weight="700" text-anchor="middle">NN</text>
+  <rect x="310" y="241" width="14" height="14" rx="2" fill="#dfe4ea"/>
+  <text x="317" y="252" fill="#3d4852" font-size="9.5" font-weight="700" text-anchor="middle">U</text>
+  <line x1="40" y1="262" x2="340" y2="262" stroke="#edf0f3" stroke-width="1"/>
+
+  <!-- tipo -->
+  <text x="56" y="281" fill="#1a202c" font-size="13">tipo</text>
+  <text x="272" y="281" fill="#4a5568" font-size="12" text-anchor="end">TEXT</text>
+  <rect x="280" y="271" width="26" height="14" rx="2" fill="#dfe4ea"/>
+  <text x="293" y="282" fill="#3d4852" font-size="9.5" font-weight="700" text-anchor="middle">NN</text>
+  <line x1="40" y1="292" x2="340" y2="292" stroke="#edf0f3" stroke-width="1"/>
+
+  <!-- capacidade -->
+  <text x="56" y="311" fill="#1a202c" font-size="13">capacidade</text>
+  <text x="272" y="311" fill="#4a5568" font-size="12" text-anchor="end">INTEGER</text>
+  <rect x="280" y="301" width="26" height="14" rx="2" fill="#dfe4ea"/>
+  <text x="293" y="312" fill="#3d4852" font-size="9.5" font-weight="700" text-anchor="middle">NN</text>
+  <line x1="40" y1="322" x2="340" y2="322" stroke="#edf0f3" stroke-width="1"/>
+
+  <!-- status -->
+  <text x="56" y="341" fill="#1a202c" font-size="13">status</text>
+  <text x="272" y="341" fill="#4a5568" font-size="12" text-anchor="end">TEXT</text>
+  <rect x="280" y="331" width="26" height="14" rx="2" fill="#dfe4ea"/>
+  <text x="293" y="342" fill="#3d4852" font-size="9.5" font-weight="700" text-anchor="middle">NN</text>
+
+  <!-- ==================== TABELA: reservas ==================== -->
+  <g filter="url(#sombra)">
+    <rect x="520" y="60" width="320" height="332" rx="4" fill="#ffffff"/>
+  </g>
+  <rect x="520" y="60" width="320" height="32" rx="4" fill="#2d6098"/>
+  <rect x="520" y="84" width="320" height="8" fill="#2d6098"/>
+  <text x="536" y="81" fill="#ffffff" font-size="14" font-weight="600">reservas</text>
+
+  <!-- id -->
+  <text x="536" y="111" fill="#1a202c" font-size="13" font-weight="700">id</text>
+  <text x="620" y="111" fill="#718096" font-size="11">🔑</text>
+  <text x="824" y="111" fill="#4a5568" font-size="12" text-anchor="end">INTEGER</text>
+  <line x1="520" y1="122" x2="840" y2="122" stroke="#edf0f3" stroke-width="1"/>
+
+  <!-- quarto_id -->
+  <text x="536" y="141" fill="#1a202c" font-size="13">quarto_id</text>
+  <text x="620" y="141" fill="#718096" font-size="11">🔗</text>
+  <text x="772" y="141" fill="#4a5568" font-size="12" text-anchor="end">INTEGER</text>
+  <rect x="780" y="131" width="26" height="14" rx="2" fill="#dfe4ea"/>
+  <text x="793" y="142" fill="#3d4852" font-size="9.5" font-weight="700" text-anchor="middle">NN</text>
+  <line x1="520" y1="152" x2="840" y2="152" stroke="#edf0f3" stroke-width="1"/>
+
+  <!-- cliente_nome -->
+  <text x="536" y="171" fill="#1a202c" font-size="13">cliente_nome</text>
+  <text x="772" y="171" fill="#4a5568" font-size="12" text-anchor="end">TEXT</text>
+  <rect x="780" y="161" width="26" height="14" rx="2" fill="#dfe4ea"/>
+  <text x="793" y="172" fill="#3d4852" font-size="9.5" font-weight="700" text-anchor="middle">NN</text>
+  <line x1="520" y1="182" x2="840" y2="182" stroke="#edf0f3" stroke-width="1"/>
+
+  <!-- cliente_telefone -->
+  <text x="536" y="201" fill="#1a202c" font-size="13">cliente_telefone</text>
+  <text x="772" y="201" fill="#4a5568" font-size="12" text-anchor="end">TEXT</text>
+  <rect x="780" y="191" width="26" height="14" rx="2" fill="#dfe4ea"/>
+  <text x="793" y="202" fill="#3d4852" font-size="9.5" font-weight="700" text-anchor="middle">NN</text>
+  <line x1="520" y1="212" x2="840" y2="212" stroke="#edf0f3" stroke-width="1"/>
+
+  <!-- data_entrada -->
+  <text x="536" y="231" fill="#1a202c" font-size="13">data_entrada</text>
+  <text x="772" y="231" fill="#4a5568" font-size="12" text-anchor="end">TEXT</text>
+  <rect x="780" y="221" width="26" height="14" rx="2" fill="#dfe4ea"/>
+  <text x="793" y="232" fill="#3d4852" font-size="9.5" font-weight="700" text-anchor="middle">NN</text>
+  <line x1="520" y1="242" x2="840" y2="242" stroke="#edf0f3" stroke-width="1"/>
+
+  <!-- data_saida -->
+  <text x="536" y="261" fill="#1a202c" font-size="13">data_saida</text>
+  <text x="772" y="261" fill="#4a5568" font-size="12" text-anchor="end">TEXT</text>
+  <rect x="780" y="251" width="26" height="14" rx="2" fill="#dfe4ea"/>
+  <text x="793" y="262" fill="#3d4852" font-size="9.5" font-weight="700" text-anchor="middle">NN</text>
+  <line x1="520" y1="272" x2="840" y2="272" stroke="#edf0f3" stroke-width="1"/>
+
+  <!-- status -->
+  <text x="536" y="291" fill="#1a202c" font-size="13">status</text>
+  <text x="772" y="291" fill="#4a5568" font-size="12" text-anchor="end">TEXT</text>
+  <rect x="780" y="281" width="26" height="14" rx="2" fill="#dfe4ea"/>
+  <text x="793" y="292" fill="#3d4852" font-size="9.5" font-weight="700" text-anchor="middle">NN</text>
+  <line x1="520" y1="302" x2="840" y2="302" stroke="#edf0f3" stroke-width="1"/>
+
+  <!-- observacoes -->
+  <text x="536" y="321" fill="#1a202c" font-size="13">observacoes</text>
+  <text x="824" y="321" fill="#4a5568" font-size="12" text-anchor="end">TEXT</text>
+  <line x1="520" y1="332" x2="840" y2="332" stroke="#edf0f3" stroke-width="1"/>
+
+  <!-- criado_em -->
+  <text x="536" y="351" fill="#1a202c" font-size="13">criado_em</text>
+  <text x="772" y="351" fill="#4a5568" font-size="12" text-anchor="end">TEXT</text>
+  <rect x="780" y="341" width="26" height="14" rx="2" fill="#dfe4ea"/>
+  <text x="793" y="352" fill="#3d4852" font-size="9.5" font-weight="700" text-anchor="middle">NN</text>
+
+  <!-- ==================== LEGENDA ==================== -->
+  <text x="40" y="410" fill="#4a5568" font-size="11.5">🔑 chave primária    🔗 chave estrangeira    ◈ único    NN not null    U unique</text>
+  <text x="40" y="430" fill="#4a5568" font-size="11.5">Cardinalidade: um quarto (1) possui N reservas · uma reserva pertence a exatamente um quarto</text>
+
+</svg>
