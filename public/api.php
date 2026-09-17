@@ -303,8 +303,8 @@ try {
         case 'atualizar_reserva': {
             $d = corpoJson();
 
-            // Antes só o "id" era exigido aqui: os outros campos podiam chegar
-            // vazios e gravar lixo no banco.
+            // Todos os campos são exigidos, e não apenas o "id": um UPDATE
+            // parcial sobrescreveria as outras colunas com valores vazios.
             exigirCampos($d, ['id', 'quarto_id', 'cliente_nome', 'cliente_telefone', 'data_entrada', 'data_saida', 'status']);
             validarNome($d['cliente_nome']);
             validarTelefone($d['cliente_telefone']);
@@ -375,8 +375,8 @@ try {
             $stmt = $pdo->prepare('DELETE FROM reservas WHERE id = :id');
             $stmt->execute([':id' => $d['id']]);
 
-            // Recalcula em vez de marcar como disponível direto: o quarto pode
-            // ter outra reserva ativa que ainda deve manter a cor.
+            // Recalcula o status em vez de marcar como disponível direto: o
+            // quarto pode ter outra reserva ativa que ainda deve manter a cor.
             recalcularStatusQuarto($pdo, $quartoId);
 
             $pdo->commit();
