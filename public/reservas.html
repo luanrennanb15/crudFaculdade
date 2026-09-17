@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel - Reservas</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+<header class="topo">
+    <h1>🏨 Sistema de Reservas do Hotel</h1>
+    <nav>
+        <a href="index.html">Mapa de Quartos</a>
+        <a href="reservas.html" class="ativo">Reservas</a>
+        <a href="quartos.html">Gerenciar Quartos</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="cartao">
+        <h2 id="form-titulo">Nova Reserva</h2>
+        <form id="form-reserva">
+            <input type="hidden" id="reserva-id">
+
+            <label for="quarto_id">Quarto:</label>
+            <select id="quarto_id" required></select>
+
+            <label for="cliente_nome">Nome do cliente:</label>
+            <input type="text" id="cliente_nome" required minlength="3" maxlength="100">
+
+            <label for="cliente_telefone">Telefone:</label>
+            <input type="text" id="cliente_telefone" required placeholder="(00) 00000-0000">
+
+            <label for="data_entrada">Check-in:</label>
+            <input type="date" id="data_entrada" required>
+
+            <label for="data_saida">Check-out:</label>
+            <input type="date" id="data_saida" required>
+
+            <label for="status">Status:</label>
+            <select id="status" required>
+                <option value="agendado">Agendado (amarelo)</option>
+                <option value="ocupado">Ocupado (vermelho)</option>
+                <option value="finalizado">Finalizado (libera o quarto)</option>
+                <option value="cancelado">Cancelado (libera o quarto)</option>
+            </select>
+
+            <label for="observacoes">Observações:</label>
+            <textarea id="observacoes" rows="2" maxlength="300"></textarea>
+
+            <div class="botoes-modal">
+                <button type="submit" class="btn btn-primario" id="btn-salvar">Salvar Reserva</button>
+                <button type="button" class="btn btn-secundario escondido" id="btn-cancelar-edicao">Cancelar edição</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="cartao">
+        <h2>Reservas cadastradas</h2>
+        <input type="text" id="busca-reserva" placeholder="Buscar por nome ou telefone do cliente...">
+        <div class="tabela-wrapper">
+            <table id="tabela-reservas">
+                <thead>
+                    <tr>
+                        <th>Quarto</th>
+                        <th>Cliente</th>
+                        <th>Telefone</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="7">Carregando...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

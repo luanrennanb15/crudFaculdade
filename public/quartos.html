@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel - Gerenciar Quartos</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+<header class="topo">
+    <h1>🏨 Sistema de Reservas do Hotel</h1>
+    <nav>
+        <a href="index.html">Mapa de Quartos</a>
+        <a href="reservas.html">Reservas</a>
+        <a href="quartos.html" class="ativo">Gerenciar Quartos</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="cartao">
+        <h2 id="form-quarto-titulo">Novo Quarto</h2>
+        <form id="form-quarto">
+            <input type="hidden" id="quarto-id">
+
+            <label for="quarto-numero">Número do quarto:</label>
+            <input type="text" id="quarto-numero" required maxlength="10" placeholder="Ex.: 301">
+
+            <label for="quarto-tipo">Tipo:</label>
+            <select id="quarto-tipo" required>
+                <option value="Standard">Standard</option>
+                <option value="Luxo">Luxo</option>
+                <option value="Suite">Suíte</option>
+            </select>
+
+            <label for="quarto-capacidade">Capacidade (pessoas):</label>
+            <input type="number" id="quarto-capacidade" required min="1" max="10" value="2">
+
+            <div class="botoes-modal">
+                <button type="submit" class="btn btn-primario" id="btn-salvar-quarto">Salvar Quarto</button>
+                <button type="button" class="btn btn-secundario escondido" id="btn-cancelar-edicao-quarto">Cancelar edição</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="cartao">
+        <h2>Quartos cadastrados</h2>
+        <div class="tabela-wrapper">
+            <table id="tabela-quartos">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Tipo</th>
+                        <th>Capacidade</th>
+                        <th>Status</th>
+                        <th>Reservas ativas</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="6">Carregando...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

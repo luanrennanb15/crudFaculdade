@@ -1,16 +1,13 @@
-# Cache objects
-packer_cache/
+# Banco de dados gerado automaticamente na primeira execução.
+# Não versionamos para o repositório continuar "limpo": quem clonar
+# roda o projeto e o hotel.db é recriado a partir de db/schema.sql.
+db/hotel.db
 
-# Crash log
-crash.log
+# Arquivos de sistema
+Thumbs.db
+desktop.ini
+.DS_Store
 
-# https://www.packer.io/guides/hcl/variables
-# Exclude all .pkrvars.hcl files, which are likely to contain sensitive data, 
-# such as password, private keys, and other secrets. These should not be part of 
-# version control as they are data points which are potentially sensitive and 
-# subject to change depending on the environment.
-#
-*.pkrvars.hcl
-
-# For built boxes
-*.box
+# Editores
+.vscode/
+.idea/

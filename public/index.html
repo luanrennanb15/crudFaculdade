@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel - Mapa de Quartos</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+<header class="topo">
+    <h1>🏨 Sistema de Reservas do Hotel</h1>
+    <nav>
+        <a href="index.html" class="ativo">Mapa de Quartos</a>
+        <a href="reservas.html">Reservas</a>
+        <a href="quartos.html">Gerenciar Quartos</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="legenda">
+        <span class="item-legenda"><span class="bolinha verde"></span> Disponível</span>
+        <span class="item-legenda"><span class="bolinha amarela"></span> Agendado</span>
+        <span class="item-legenda"><span class="bolinha vermelha"></span> Ocupado</span>
+    </section>
+
+    <section id="mapa-quartos" class="mapa-quartos">
+        <p>Carregando quartos...</p>
+    </section>
+
+</main>
+
+<!-- Modal para alterar status manualmente -->
+<div id="modal-status" class="modal escondido">
+    <div class="modal-conteudo">
+        <h2 id="modal-titulo">Alterar status do quarto</h2>
+        <form id="form-status">
+            <input type="hidden" id="modal-quarto-id">
+            <label for="modal-status-select">Novo status:</label>
+            <select id="modal-status-select">
+                <option value="disponivel">Disponível (verde)</option>
+                <option value="agendado">Agendado (amarelo)</option>
+                <option value="ocupado">Ocupado (vermelho)</option>
+            </select>
+            <div class="botoes-modal">
+                <button type="submit" class="btn btn-primario">Salvar</button>
+                <button type="button" id="btn-cancelar-modal" class="btn btn-secundario">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
