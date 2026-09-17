@@ -17,7 +17,7 @@ Trabalho de **Banco de Dados — NP1**
 |---|---|
 | Eduardo Vieira Garcia | H31BIA7 |
 | Vinicius de Pádua de Frati Bertoni | H75CEG3 |
-| Mauricio Pereira Reis Cunha | H124J5 |
+| Mauricio Pereira Reis Cunha | H7124J5 |
 | Luan Rennan Pereira Pinto | G145HI0 |
 
 ---
