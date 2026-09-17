@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>DER - Sistema de Reserva de Hotel</title>
+<style>
+    body {
+        margin: 0;
+        padding: 40px;
+        background: #fafafa;
+        font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+
+    .area {
+        position: relative;
+        width: 880px;
+        height: 380px;   /* altura fixa: os cartoes sao absolutos e nao empurram a legenda */
+    }
+
+    .tabela {
+        position: absolute;
+        width: 310px;
+        background: #fff;
+        border-radius: 4px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.20);
+        overflow: hidden;
+    }
+
+    .tabela h2 {
+        margin: 0;
+        height: 37px;
+        box-sizing: border-box;
+        padding: 9px 16px;
+        background: #2d6098;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 19px;
+    }
+
+    .linha {
+        height: 33px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        border-bottom: 1px solid #eef1f4;
+        font-size: 13px;
+        color: #1a202c;
+    }
+
+    .linha:last-child { border-bottom: none; }
+
+    .campo { flex: 1; }
+    .campo.chave { font-weight: 700; }
+
+    .marca {
+        color: #718096;
+        font-size: 11px;
+        font-weight: 700;
+        margin-left: 6px;
+        letter-spacing: 0.5px;
+    }
+
+    .tipo {
+        color: #4a5568;
+        font-size: 12px;
+        margin-left: 10px;
+    }
+
+    .badge {
+        display: inline-block;
+        margin-left: 6px;
+        padding: 1px 5px;
+        border-radius: 2px;
+        background: #dfe4ea;
+        color: #3d4852;
+        font-size: 9.5px;
+        font-weight: 700;
+    }
+
+    /* posicionamento dos cartoes */
+    #quartos  { left: 0;     top: 120px; }
+    #reservas { left: 520px; top: 0; }
+
+    /* segmentos da linha de ligacao */
+    .ligacao {
+        position: absolute;
+        border-color: #9aa5b1;
+        border-style: solid;
+    }
+
+    .legenda {
+        width: 880px;
+        font-size: 12px;
+        color: #4a5568;
+        line-height: 2;
+    }
+</style>
+</head>
+<body>
+
+<div class="area">
+
+    <!--
+        Geometria da ligacao quartos.id (1) ----- (N) reservas.quarto_id
+
+        quartos  : top 120 + cabecalho 37 = 157 ; 1a linha (id) 157..190 -> centro 173
+        reservas : top 0   + cabecalho 37 =  37 ; 2a linha (quarto_id) 70..103 -> centro 86
+    -->
+
+    <!-- trecho horizontal saindo de quartos.id -->
+    <div class="ligacao" style="left:310px; top:173px; width:95px; border-width:1.4px 0 0 0;"></div>
+    <!-- trecho vertical -->
+    <div class="ligacao" style="left:404px; top:86px; height:88px; border-width:0 0 0 1.4px;"></div>
+    <!-- trecho horizontal chegando em reservas.quarto_id -->
+    <div class="ligacao" style="left:404px; top:86px; width:116px; border-width:1.4px 0 0 0;"></div>
+
+    <!-- marca "1" (traco unico) no lado quartos -->
+    <div class="ligacao" style="left:322px; top:167px; height:13px; border-width:0 0 0 1.4px;"></div>
+
+    <!-- pe-de-galinha "N" no lado reservas -->
+    <div class="ligacao" style="left:507px; top:79px; width:14px; border-width:1.4px 0 0 0; transform:rotate(-26deg); transform-origin:right center;"></div>
+    <div class="ligacao" style="left:507px; top:86px; width:14px; border-width:1.4px 0 0 0;"></div>
+    <div class="ligacao" style="left:507px; top:93px; width:14px; border-width:1.4px 0 0 0; transform:rotate(26deg); transform-origin:right center;"></div>
+
+    <!-- ==================== quartos ==================== -->
+    <div class="tabela" id="quartos">
+        <h2>quartos</h2>
+        <div class="linha"><span class="campo chave">id</span><span class="marca">PK</span><span class="tipo">INTEGER</span></div>
+        <div class="linha"><span class="campo">numero</span><span class="tipo">TEXT</span><span class="badge">NN</span><span class="badge">UNIQUE</span></div>
+        <div class="linha"><span class="campo">tipo</span><span class="tipo">TEXT</span><span class="badge">NN</span></div>
+        <div class="linha"><span class="campo">capacidade</span><span class="tipo">INTEGER</span><span class="badge">NN</span><span class="badge">CHECK</span></div>
+        <div class="linha"><span class="campo">status</span><span class="tipo">TEXT</span><span class="badge">NN</span><span class="badge">CHECK</span></div>
+    </div>
+
+    <!-- ==================== reservas ==================== -->
+    <div class="tabela" id="reservas">
+        <h2>reservas</h2>
+        <div class="linha"><span class="campo chave">id</span><span class="marca">PK</span><span class="tipo">INTEGER</span></div>
+        <div class="linha"><span class="campo">quarto_id</span><span class="marca">FK</span><span class="tipo">INTEGER</span><span class="badge">NN</span></div>
+        <div class="linha"><span class="campo">cliente_nome</span><span class="tipo">TEXT</span><span class="badge">NN</span></div>
+        <div class="linha"><span class="campo">cliente_telefone</span><span class="tipo">TEXT</span><span class="badge">NN</span></div>
+        <div class="linha"><span class="campo">data_entrada</span><span class="tipo">TEXT</span><span class="badge">NN</span></div>
+        <div class="linha"><span class="campo">data_saida</span><span class="tipo">TEXT</span><span class="badge">NN</span><span class="badge">CHECK</span></div>
+        <div class="linha"><span class="campo">status</span><span class="tipo">TEXT</span><span class="badge">NN</span><span class="badge">CHECK</span></div>
+        <div class="linha"><span class="campo">observacoes</span><span class="tipo">TEXT</span></div>
+        <div class="linha"><span class="campo">criado_em</span><span class="tipo">TEXT</span><span class="badge">NN</span></div>
+    </div>
+
+</div>
+
+<div class="legenda">
+    <strong>PK</strong> chave primária &nbsp;·&nbsp;
+    <strong>FK</strong> chave estrangeira &nbsp;·&nbsp;
+    <strong>NN</strong> not null &nbsp;·&nbsp;
+    <strong>UNIQUE</strong> valor único &nbsp;·&nbsp;
+    <strong>CHECK</strong> restrição de domínio
+    <br>
+    <strong>Cardinalidade:</strong> um quarto (1) possui N reservas &nbsp;·&nbsp; uma reserva pertence a exatamente um quarto
+</div>
+
+</body>
+</html>

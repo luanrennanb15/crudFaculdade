@@ -50,7 +50,7 @@ O cadastro dos quartos é feito uma única vez, na carga inicial do banco (`db/s
 
 ### Diagrama Entidade-Relacionamento (DER)
 
-![Diagrama Entidade-Relacionamento](docs/der.png)
+![Diagrama Entidade-Relacionamento](docs/DER.png)
 
 O mesmo modelo, em notação Mermaid:
 
@@ -155,7 +155,7 @@ crudFaculdade/
 │   ├── api.php             # Camada de dados: SQL direto via PDO
 │   ├── estilo.css          # CSS puro
 │   └── script.js           # JavaScript puro (fetch)
-├── docs/                   # Capturas de tela (evidências)
+├── docs/                   # Diagrama DER e capturas de tela (evidências)
 ├── .gitignore
 └── README.md
 ```
