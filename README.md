@@ -30,7 +30,9 @@ A tela principal é um **mapa visual dos quartos**, em que a cor indica a situa�
 
 ### Escopo funcional
 
-O sistema tem três telas. O **Mapa de Quartos** mostra a situação visual de todos os quartos e permite alterar o status de um quarto direto pelo card. A tela de **Reservas** concentra o CRUD completo das reservas, com busca por nome ou telefone do cliente. A tela de **Gerenciar Quartos** faz o CRUD completo dos quartos do hotel.
+O sistema tem duas telas. O **Mapa de Quartos** mostra a situação visual de todos os quartos e permite alterar o status de um quarto direto pelo card. A tela de **Reservas** concentra o CRUD completo das reservas (criar, listar, editar e excluir), com busca por nome ou telefone do cliente.
+
+O cadastro dos quartos é feito uma única vez, na carga inicial do banco (`db/schema.sql`), já que o número de quartos de um hotel não muda no dia a dia.
 
 ### Regras de negócio
 
@@ -40,8 +42,7 @@ O sistema tem três telas. O **Mapa de Quartos** mostra a situação visual de t
 4. **Um quarto não pode ter duas reservas ativas no mesmo período.** A sobreposição é detectada pela condição `data_entrada < :saida AND data_saida > :entrada`. Reservas finalizadas ou canceladas não bloqueiam a agenda.
 5. O status da reserva define a cor do quarto: agendado deixa o quarto amarelo, ocupado deixa vermelho, finalizado e cancelado devolvem o quarto para verde.
 6. Ao excluir ou finalizar uma reserva, o status do quarto é **recalculado** a partir das reservas ativas restantes, e não simplesmente marcado como disponível. Isso evita que um quarto com outra reserva válida volte a aparecer como livre.
-7. Um quarto com reservas ativas não pode ser excluído, para não perder o histórico por efeito do `ON DELETE CASCADE`.
-8. O nome do cliente precisa ter ao menos 3 caracteres e o telefone precisa ter 10 ou 11 dígitos (DDD + número).
+7. O nome do cliente precisa ter ao menos 3 caracteres e o telefone precisa ter 10 ou 11 dígitos (DDD + número).
 
 ---
 
@@ -127,7 +128,6 @@ php -S localhost:8000 -t public
 # 3. Abrir no navegador
 #    http://localhost:8000/index.html     -> mapa de quartos
 #    http://localhost:8000/reservas.html  -> CRUD de reservas
-#    http://localhost:8000/quartos.html   -> CRUD de quartos
 ```
 
 O banco `db/hotel.db` **não está versionado** e é criado automaticamente na primeira requisição, a partir de `db/schema.sql`, já com 6 quartos de exemplo. O repositório é reprodutível a partir do clone limpo, sem nenhum passo manual de configuração.
@@ -147,7 +147,6 @@ crudFaculdade/
 ├── public/                 # Raiz do servidor web
 │   ├── index.html          # Mapa de quartos (verde/amarelo/vermelho)
 │   ├── reservas.html       # CRUD de reservas
-│   ├── quartos.html        # CRUD de quartos
 │   ├── api.php             # Camada de dados: SQL direto via PDO
 │   ├── estilo.css          # CSS puro
 │   └── script.js           # JavaScript puro (fetch)
@@ -160,10 +159,7 @@ crudFaculdade/
 
 | Método | Rota | Operação SQL |
 |---|---|---|
-| GET | `?acao=listar_quartos` | SELECT com subconsulta de reservas ativas |
-| POST | `?acao=criar_quarto` | INSERT |
-| POST | `?acao=atualizar_quarto` | UPDATE |
-| POST | `?acao=excluir_quarto` | DELETE |
+| GET | `?acao=listar_quartos` | SELECT |
 | POST | `?acao=atualizar_status_quarto` | UPDATE |
 | GET | `?acao=listar_reservas` | SELECT com INNER JOIN |
 | POST | `?acao=criar_reserva` | INSERT + UPDATE (em transação) |

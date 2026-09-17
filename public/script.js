@@ -12,9 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('form-reserva')) {
         iniciarPaginaReservas();
     }
-    if (document.getElementById('form-quarto')) {
-        iniciarPaginaQuartos();
-    }
 });
 
 // ---------------- Funções auxiliares ----------------
@@ -90,17 +87,6 @@ function validarFormularioReserva(dados) {
     return null; // sem erro
 }
 
-function validarFormularioQuarto(dados) {
-    if (dados.numero.trim() === '') {
-        return 'Informe o número do quarto.';
-    }
-    const capacidade = Number(dados.capacidade);
-    if (!Number.isInteger(capacidade) || capacidade < 1 || capacidade > 10) {
-        return 'A capacidade deve ser um número inteiro entre 1 e 10.';
-    }
-    return null;
-}
-
 // ================= PÁGINA: MAPA DE QUARTOS =================
 
 async function iniciarPaginaMapa() {
@@ -132,7 +118,7 @@ async function carregarMapaQuartos() {
         container.innerHTML = '';
 
         if (quartos.length === 0) {
-            container.innerHTML = '<p>Nenhum quarto cadastrado. Cadastre em "Gerenciar Quartos".</p>';
+            container.innerHTML = '<p>Nenhum quarto cadastrado.</p>';
             return;
         }
 
@@ -325,139 +311,4 @@ function limparFormularioReserva() {
     document.getElementById('form-titulo').textContent = 'Nova Reserva';
     document.getElementById('btn-salvar').textContent = 'Salvar Reserva';
     document.getElementById('btn-cancelar-edicao').classList.add('escondido');
-}
-
-// ================= PÁGINA: QUARTOS (CRUD) =================
-
-let listaQuartosAtual = [];
-
-async function iniciarPaginaQuartos() {
-    await carregarTabelaQuartos();
-
-    document.getElementById('form-quarto').addEventListener('submit', salvarQuarto);
-    document.getElementById('btn-cancelar-edicao-quarto').addEventListener('click', limparFormularioQuarto);
-}
-
-async function carregarTabelaQuartos() {
-    const corpoTabela = document.querySelector('#tabela-quartos tbody');
-    try {
-        listaQuartosAtual = await chamarApi('listar_quartos');
-        renderizarTabelaQuartos(listaQuartosAtual);
-    } catch (erro) {
-        corpoTabela.innerHTML = `<tr><td colspan="6">Erro ao carregar quartos: ${escaparHtml(erro.message)}</td></tr>`;
-    }
-}
-
-function renderizarTabelaQuartos(quartos) {
-    const corpoTabela = document.querySelector('#tabela-quartos tbody');
-
-    if (quartos.length === 0) {
-        corpoTabela.innerHTML = '<tr><td colspan="6">Nenhum quarto cadastrado.</td></tr>';
-        return;
-    }
-
-    const rotulos = { disponivel: 'Disponível', agendado: 'Agendado', ocupado: 'Ocupado' };
-
-    corpoTabela.innerHTML = quartos.map((q) => `
-        <tr>
-            <td>${escaparHtml(q.numero)}</td>
-            <td>${escaparHtml(q.tipo)}</td>
-            <td>${escaparHtml(q.capacidade)} pessoas</td>
-            <td><span class="tag-status ${q.status}">${rotulos[q.status]}</span></td>
-            <td>${escaparHtml(q.reservas_ativas)}</td>
-            <td class="acoes-tabela">
-                <button class="editar" data-id="${q.id}">Editar</button>
-                <button class="excluir" data-id="${q.id}">Excluir</button>
-            </td>
-        </tr>
-    `).join('');
-
-    corpoTabela.querySelectorAll('.editar').forEach((botao) => {
-        botao.addEventListener('click', () => editarQuarto(quartos, botao.dataset.id));
-    });
-    corpoTabela.querySelectorAll('.excluir').forEach((botao) => {
-        botao.addEventListener('click', () => excluirQuarto(botao.dataset.id));
-    });
-}
-
-async function salvarQuarto(evento) {
-    evento.preventDefault();
-
-    const id = document.getElementById('quarto-id').value;
-    const dados = {
-        numero: document.getElementById('quarto-numero').value,
-        tipo: document.getElementById('quarto-tipo').value,
-        capacidade: document.getElementById('quarto-capacidade').value,
-    };
-
-    const erroValidacao = validarFormularioQuarto(dados);
-    if (erroValidacao) {
-        mostrarAviso(erroValidacao);
-        return;
-    }
-
-    const botao = document.getElementById('btn-salvar-quarto');
-    botao.disabled = true;
-
-    try {
-        if (id) {
-            dados.id = id;
-            await chamarApi('atualizar_quarto', 'POST', dados);
-            mostrarAviso('Quarto atualizado com sucesso.', 'sucesso');
-        } else {
-            await chamarApi('criar_quarto', 'POST', dados);
-            mostrarAviso('Quarto cadastrado com sucesso.', 'sucesso');
-        }
-        limparFormularioQuarto();
-        await carregarTabelaQuartos();
-    } catch (erro) {
-        mostrarAviso(erro.message);
-    } finally {
-        botao.disabled = false;
-    }
-}
-
-function editarQuarto(quartos, id) {
-    const quarto = quartos.find((q) => String(q.id) === String(id));
-    if (!quarto) return;
-
-    document.getElementById('quarto-id').value = quarto.id;
-    document.getElementById('quarto-numero').value = quarto.numero;
-    document.getElementById('quarto-tipo').value = quarto.tipo;
-    document.getElementById('quarto-capacidade').value = quarto.capacidade;
-
-    document.getElementById('form-quarto-titulo').textContent = 'Editar Quarto';
-    document.getElementById('btn-salvar-quarto').textContent = 'Atualizar Quarto';
-    document.getElementById('btn-cancelar-edicao-quarto').classList.remove('escondido');
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-async function excluirQuarto(id) {
-    const quarto = listaQuartosAtual.find((q) => String(q.id) === String(id));
-
-    // Aviso antecipado: o back-end também bloqueia, mas é melhor
-    // explicar o motivo antes de o usuário tentar.
-    if (quarto && Number(quarto.reservas_ativas) > 0) {
-        mostrarAviso(`O quarto ${quarto.numero} tem ${quarto.reservas_ativas} reserva(s) ativa(s) e não pode ser excluído.`);
-        return;
-    }
-
-    if (!confirm('Tem certeza que deseja excluir este quarto?')) return;
-
-    try {
-        await chamarApi('excluir_quarto', 'POST', { id });
-        await carregarTabelaQuartos();
-        mostrarAviso('Quarto excluído.', 'sucesso');
-    } catch (erro) {
-        mostrarAviso(erro.message);
-    }
-}
-
-function limparFormularioQuarto() {
-    document.getElementById('form-quarto').reset();
-    document.getElementById('quarto-id').value = '';
-    document.getElementById('form-quarto-titulo').textContent = 'Novo Quarto';
-    document.getElementById('btn-salvar-quarto').textContent = 'Salvar Quarto';
-    document.getElementById('btn-cancelar-edicao-quarto').classList.add('escondido');
 }

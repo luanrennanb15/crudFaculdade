@@ -5,9 +5,6 @@
  *
  * Rotas (query string "acao"):
  *   GET  ?acao=listar_quartos
- *   POST ?acao=criar_quarto             (body JSON)
- *   POST ?acao=atualizar_quarto         (body JSON, precisa de "id")
- *   POST ?acao=excluir_quarto           (body JSON, precisa de "id")
  *   POST ?acao=atualizar_status_quarto  (body JSON, precisa de "quarto_id" e "status")
  *
  *   GET  ?acao=listar_reservas
@@ -226,101 +223,11 @@ try {
         // ==================== QUARTOS ====================
 
         case 'listar_quartos': {
-            // A subconsulta conta as reservas ativas de cada quarto, para a
-            // tela de quartos avisar antes de tentar excluir.
-            $sql = "SELECT q.id, q.numero, q.tipo, q.capacidade, q.status,
-                           (SELECT COUNT(*) FROM reservas r
-                             WHERE r.quarto_id = q.id
-                               AND r.status IN ('agendado', 'ocupado')) AS reservas_ativas
-                    FROM quartos q
-                    ORDER BY q.numero";
+            $sql = 'SELECT id, numero, tipo, capacidade, status
+                    FROM quartos
+                    ORDER BY numero';
             $stmt = $pdo->query($sql);
             responder($stmt->fetchAll(PDO::FETCH_ASSOC));
-        }
-
-        case 'criar_quarto': {
-            $d = corpoJson();
-            exigirCampos($d, ['numero', 'tipo', 'capacidade']);
-
-            $capacidade = (int) $d['capacidade'];
-            if ($capacidade < 1 || $capacidade > 10) {
-                responder(['erro' => 'A capacidade deve ser um número entre 1 e 10.'], 400);
-            }
-
-            // O número do quarto é UNIQUE no banco. Checar antes deixa a
-            // mensagem de erro legível em vez de vazar o erro do SQLite.
-            $existe = $pdo->prepare('SELECT COUNT(*) FROM quartos WHERE numero = :numero');
-            $existe->execute([':numero' => trim($d['numero'])]);
-            if ((int) $existe->fetchColumn() > 0) {
-                responder(['erro' => 'Já existe um quarto com esse número.'], 409);
-            }
-
-            $stmt = $pdo->prepare(
-                'INSERT INTO quartos (numero, tipo, capacidade, status)
-                 VALUES (:numero, :tipo, :capacidade, :status)'
-            );
-            $stmt->execute([
-                ':numero' => trim($d['numero']),
-                ':tipo' => trim($d['tipo']),
-                ':capacidade' => $capacidade,
-                ':status' => 'disponivel',
-            ]);
-
-            responder(['sucesso' => true, 'id' => $pdo->lastInsertId()], 201);
-        }
-
-        case 'atualizar_quarto': {
-            $d = corpoJson();
-            exigirCampos($d, ['id', 'numero', 'tipo', 'capacidade']);
-            exigirQuartoExistente($pdo, $d['id']);
-
-            $capacidade = (int) $d['capacidade'];
-            if ($capacidade < 1 || $capacidade > 10) {
-                responder(['erro' => 'A capacidade deve ser um número entre 1 e 10.'], 400);
-            }
-
-            // Número duplicado, ignorando o próprio quarto que está sendo editado
-            $existe = $pdo->prepare('SELECT COUNT(*) FROM quartos WHERE numero = :numero AND id <> :id');
-            $existe->execute([':numero' => trim($d['numero']), ':id' => $d['id']]);
-            if ((int) $existe->fetchColumn() > 0) {
-                responder(['erro' => 'Já existe outro quarto com esse número.'], 409);
-            }
-
-            $stmt = $pdo->prepare(
-                'UPDATE quartos
-                    SET numero = :numero, tipo = :tipo, capacidade = :capacidade
-                  WHERE id = :id'
-            );
-            $stmt->execute([
-                ':numero' => trim($d['numero']),
-                ':tipo' => trim($d['tipo']),
-                ':capacidade' => $capacidade,
-                ':id' => $d['id'],
-            ]);
-
-            responder(['sucesso' => true]);
-        }
-
-        case 'excluir_quarto': {
-            $d = corpoJson();
-            exigirCampos($d, ['id']);
-            exigirQuartoExistente($pdo, $d['id']);
-
-            // A FK tem ON DELETE CASCADE, então apagar o quarto apagaria as
-            // reservas junto. Bloqueamos de propósito para não perder histórico.
-            $stmt = $pdo->prepare(
-                "SELECT COUNT(*) FROM reservas
-                 WHERE quarto_id = :id AND status IN ('agendado', 'ocupado')"
-            );
-            $stmt->execute([':id' => $d['id']]);
-            if ((int) $stmt->fetchColumn() > 0) {
-                responder(['erro' => 'Não é possível excluir: este quarto tem reservas ativas.'], 409);
-            }
-
-            $del = $pdo->prepare('DELETE FROM quartos WHERE id = :id');
-            $del->execute([':id' => $d['id']]);
-
-            responder(['sucesso' => true]);
         }
 
         case 'atualizar_status_quarto': {
