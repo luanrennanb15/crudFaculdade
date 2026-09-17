@@ -141,7 +141,8 @@ Para recomeçar do zero, basta apagar `db/hotel.db` e recarregar a página.
 ```
 crudFaculdade/
 ├── db/
-│   └── schema.sql          # Script DDL: tabelas, restrições, índices e dados iniciais
+│   ├── schema.sql                 # Script DDL: tabelas, restrições, índices e dados iniciais
+│   └── verificar_persistencia.php # Lê o banco direto do arquivo (evidência de persistência)
 ├── src/
 │   └── conexao.php         # Conexão PDO com o SQLite (sem ORM)
 ├── public/                 # Raiz do servidor web
@@ -204,12 +205,22 @@ Listagem das reservas persistidas (operações **Read**, **Update** e **Delete**
 
 ![Registros cadastrados](docs/telacadastrosMaisRegistros.png)
 
-### Persistência no banco de dados
+### Estrutura criada no banco de dados
 
-Arquivo `db/hotel.db` aberto no **DB Browser for SQLite**. A estrutura mostra as tabelas `quartos` e `reservas` criadas pelo script DDL, junto com os índices `idx_reservas_quarto` e `idx_reservas_periodo`.
+Arquivo `db/hotel.db` aberto no **DB Browser for SQLite**, com o esquema completo expandido. A imagem comprova que o script DDL foi executado corretamente, mostrando coluna a coluna: as chaves primárias `AUTOINCREMENT`, o `UNIQUE` em `quartos.numero`, as restrições `CHECK` de capacidade (`BETWEEN 1 AND 10`) e dos dois campos de status, os `NOT NULL`, o `DEFAULT (datetime('now','localtime'))` de `criado_em` e os índices `idx_reservas_periodo` e `idx_reservas_quarto`.
 
-![Estrutura do banco](docs/tabelas.png)
+![Esquema completo do banco](docs/Bancogeral.png)
 
-Dados gravados no banco, comprovando que os registros cadastrados pela interface foram persistidos em disco.
+Visão geral do banco aberto no DB Browser.
 
-![Dados persistidos](docs/Captura%20de%20tela%202026-09-16%20235116.png)
+![Banco aberto no DB Browser](docs/Captura%20de%20tela%202026-09-16%20235116.png)
+
+### Persistência dos dados
+
+Além da inspeção visual, o repositório traz o script [`db/verificar_persistencia.php`](db/verificar_persistencia.php), que abre uma conexão **nova e independente da aplicação web** direto no arquivo `hotel.db` e lê o conteúdo gravado. Se os registros cadastrados pela interface aparecem nessa leitura, está comprovado que foram persistidos em disco e não apenas mantidos em memória.
+
+```bash
+php db/verificar_persistencia.php
+```
+
+O script imprime o caminho e o tamanho do arquivo, o conteúdo das duas tabelas (com `INNER JOIN`), e roda `PRAGMA foreign_key_check` e `PRAGMA integrity_check` para confirmar que não há violação de integridade referencial.
