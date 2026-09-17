@@ -206,4 +206,10 @@ Listagem das reservas persistidas (operações **Read**, **Update** e **Delete**
 
 ### Persistência no banco de dados
 
-`PREENCHER: print do arquivo db/hotel.db aberto no DB Browser for SQLite, mostrando as linhas das tabelas quartos e reservas.`
+Arquivo `db/hotel.db` aberto no **DB Browser for SQLite**. A estrutura mostra as tabelas `quartos` e `reservas` criadas pelo script DDL, junto com os índices `idx_reservas_quarto` e `idx_reservas_periodo`.
+
+![Estrutura do banco](docs/tabelas.png)
+
+Dados gravados no banco, comprovando que os registros cadastrados pela interface foram persistidos em disco.
+
+![Dados persistidos](docs/Captura%20de%20tela%202026-09-16%20235116.png)
